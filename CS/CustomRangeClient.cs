@@ -124,8 +124,8 @@ namespace CustomRangeControlClient {
         }
 
         // Return true for a specific orientation if the Client supports this orientation.
-        bool IRangeControlClient.SupportOrientation(Orientation orientation) {
-            return (orientation != Orientation.Vertical);
+        bool IRangeControlClient.SupportOrientation(RangeControlClientOrientation orientation) {
+            return (orientation != RangeControlClientOrientation.Vertical);
         }
 
         // Return true if the Client draws the ruler itself.
