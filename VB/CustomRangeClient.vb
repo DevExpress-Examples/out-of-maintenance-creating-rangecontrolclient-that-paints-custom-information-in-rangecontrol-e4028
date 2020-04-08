@@ -14,11 +14,11 @@ Namespace CustomRangeControlClient
 		Private Const rulerDeltaConst As Integer = 2
 
 'INSTANT VB NOTE: The field data was renamed since Visual Basic does not allow fields to have the same name as other class members:
-		Private data_Renamed() As Integer
+		Private data_Conflict() As Integer
 'INSTANT VB NOTE: The field minValue was renamed since Visual Basic does not allow fields to have the same name as other class members:
-		Private minValue_Renamed As Integer
+		Private minValue_Conflict As Integer
 'INSTANT VB NOTE: The field maxValue was renamed since Visual Basic does not allow fields to have the same name as other class members:
-		Private maxValue_Renamed As Integer
+		Private maxValue_Conflict As Integer
 
 		Public Sub New(ByVal dataCount As Integer, ByVal minDataValue As Integer, ByVal maxDataValue As Integer)
 			InitData(dataCount, minDataValue, maxDataValue)
@@ -43,47 +43,47 @@ Namespace CustomRangeControlClient
 
 		Public Property Data() As Integer()
 			Get
-				Return data_Renamed
+				Return data_Conflict
 			End Get
 			Private Set(ByVal value As Integer())
-				data_Renamed = value
+				data_Conflict = value
 			End Set
 		End Property
 		Public Property MaxValue() As Integer
 			Get
-				Return maxValue_Renamed
+				Return maxValue_Conflict
 			End Get
 			Private Set(ByVal value As Integer)
-				maxValue_Renamed = value
+				maxValue_Conflict = value
 			End Set
 		End Property
 
 		Public Property MinValue() As Integer
 			Get
-				Return minValue_Renamed
+				Return minValue_Conflict
 			End Get
 			Private Set(ByVal value As Integer)
-				minValue_Renamed = value
+				minValue_Conflict = value
 			End Set
 		End Property
 
 'INSTANT VB NOTE: The field events was renamed since Visual Basic does not allow fields to have the same name as other class members:
-		Private events_Renamed As EventHandlerList
+		Private events_Conflict As EventHandlerList
 		Protected ReadOnly Property Events() As EventHandlerList
 			Get
-				If events_Renamed Is Nothing Then
-					events_Renamed = New EventHandlerList()
+				If events_Conflict Is Nothing Then
+					events_Conflict = New EventHandlerList()
 				End If
-				Return events_Renamed
+				Return events_Conflict
 			End Get
 		End Property
 
 'INSTANT VB NOTE: The field rangeChanged was renamed since Visual Basic does not allow fields to have the same name as other class members:
-		Private Shared ReadOnly rangeChanged_Renamed As New Object()
+		Private Shared ReadOnly rangeChanged_Conflict As New Object()
 
 		' Fires the RangeChanged event.
 		Protected Sub RaiseRangeChanged()
-			Dim handler As RangeChangedEventHandler = TryCast(Events(rangeChanged_Renamed), RangeChangedEventHandler)
+			Dim handler As RangeChangedEventHandler = TryCast(Events(rangeChanged_Conflict), RangeChangedEventHandler)
 			If handler IsNot Nothing Then
 				Dim e As New RangeControlRangeEventArgs()
 				e.Range = New RangeControlRange()
@@ -126,10 +126,10 @@ Namespace CustomRangeControlClient
 		'The event that fires when the range has been changed via the Client.
 		Private Custom Event RangeChanged As ClientRangeChangedEventHandler Implements IRangeControlClient.RangeChanged
 			AddHandler(ByVal value As ClientRangeChangedEventHandler)
-				Events.AddHandler(rangeChanged_Renamed, value)
+				Events.AddHandler(rangeChanged_Conflict, value)
 			End AddHandler
 			RemoveHandler(ByVal value As ClientRangeChangedEventHandler)
-				Events.RemoveHandler(rangeChanged_Renamed, value)
+				Events.RemoveHandler(rangeChanged_Conflict, value)
 			End RemoveHandler
 			RaiseEvent(ByVal sender As Object, ByVal e As EventArgs)
 			End RaiseEvent
@@ -139,8 +139,8 @@ Namespace CustomRangeControlClient
 		End Sub
 
 		' Return true for a specific orientation if the Client supports this orientation.
-		Private Function IRangeControlClient_SupportOrientation(ByVal orientation As Orientation) As Boolean Implements IRangeControlClient.SupportOrientation
-			Return (orientation <> System.Windows.Forms.Orientation.Vertical)
+		Private Function IRangeControlClient_SupportOrientation(ByVal orientation As RangeControlClientOrientation) As Boolean Implements IRangeControlClient.SupportOrientation
+			Return (orientation <> RangeControlClientOrientation.Vertical)
 		End Function
 
 		' Return true if the Client draws the ruler itself.
